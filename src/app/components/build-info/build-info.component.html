@@ -1,36 +1,60 @@
 <div class="bootstrap-wrapper">
+  <h1 mat-dialog-title>{{inputData}}</h1>
 
-    <div class="example-container mat-elevation-z8">
+  <div mat-dialog-content>
+    <div class="example-table-container">
+
+      <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+
+        <ng-container matColumnDef="id">
+          <th mat-header-cell *matHeaderCellDef class="w-75"> ID </th>
+          <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="displayName" justify="end">
+          <th mat-header-cell *matHeaderCellDef class="w-75"> DisplayName </th>
+          <td mat-cell *matCellDef="let element"> {{element.displayName}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="number">
+          <th mat-header-cell *matHeaderCellDef class="w-75"> Number </th>
+          <td mat-cell *matCellDef="let element"> {{element.number}} </td>
+        </ng-container>
 
 
-        <div class="example-table-container">
+        <ng-container matColumnDef="url">
+          <th mat-header-cell *matHeaderCellDef class="w-100"> Build URL </th>
+          <td mat-cell *matCellDef="let element"> <a href="{{element.url}}">{{element.url}}</a> </td>
+        </ng-container>
 
-            <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+        <ng-container matColumnDef="result">
+          <th mat-header-cell *matHeaderCellDef class="w-75"> Result </th>
+          <td mat-cell *matCellDef="let element"> {{element.result}} </td>
+        </ng-container>
 
-                <mat-text-column name="id"></mat-text-column>
-                <mat-text-column name="displayName"></mat-text-column>
-                <mat-text-column name="number"></mat-text-column>
+        <ng-container matColumnDef="timestamp">
+          <th mat-header-cell *matHeaderCellDef class="w-75"> Timestamp </th>
+          <td mat-cell *matCellDef="let element"> {{element.timestamp}} </td>
+        </ng-container>
 
-                <ng-container matColumnDef="url">
-                    <th mat-header-cell *matHeaderCellDef> Build URL </th>
-                    <td mat-cell *matCellDef="let element"> <a href="{{element.url}}">{{element.url}}</a> </td>
-                </ng-container>
+        <ng-container matColumnDef="duration" justify="end">
+          <th mat-header-cell *matHeaderCellDef class="w-75"> Duration </th>
+          <td mat-cell *matCellDef="let element"> {{element.duration}} </td>
+        </ng-container>
 
-                <mat-text-column name="result"></mat-text-column>
-                <mat-text-column name="timestamp"></mat-text-column>
-                <mat-text-column name="duration"></mat-text-column>
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef class="w-75"> Actions </th>
+          <td mat-cell *matCellDef="let element"> {{element.actions}} </td>
+        </ng-container>
 
-                <ng-container matColumnDef="actions">
-                    <th mat-header-cell *matHeaderCellDef> Actions </th>
-                    <td mat-cell *matCellDef="let element"> {{element.actions}} </td>
-                </ng-container>
-
-                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-            </table>
-
-        </div>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
 
     </div>
+  </div>
+  <div mat-dialog-actions>
+    <button mat-button mat-dialog-close>Close</button>
+  </div>
 
 </div>

@@ -22,6 +22,7 @@ import { LoaderService } from './services/loader.service';
 import { LoaderInterceptor } from './interceptors/loader.interceptor';
 import { LoaderComponent } from './components/loader/loader.component';
 import { BuildInfoComponent } from './components/build-info/build-info.component';
+import {MatCardModule} from '@angular/material/card';
 
 @NgModule({
   declarations: [
@@ -45,6 +46,7 @@ import { BuildInfoComponent } from './components/build-info/build-info.component
     MatTableModule,
     MatProgressSpinnerModule,
     MatDialogModule,
+    MatCardModule,
     FormsModule,
     HttpClientModule
   ],

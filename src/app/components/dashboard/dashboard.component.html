@@ -2,16 +2,30 @@
 
   <div class="container text-center mt">
     <h1> Welcome to Jenkins Dashboard</h1>
+
   </div>
 
+ 
 
   <div class="example-container mat-elevation-z8">
 
 
+    <div class="example-loading-shade" *ngIf="isLoadingResults || isRateLimitReached">
+      <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
+      <div class="example-rate-limit-reached" *ngIf="isRateLimitReached">
+        Backend API rate limit has been reached. It will be reset in one minute.
+      </div>
+    </div>
+
+
+    <!-- <div *ngFor="let job of jobInfo">
+      {{ job | json }}
+    </div> -->
+
     <div class="example-table-container">
 
-      <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
-        
+      <table mat-table [dataSource]="jobInfo" class="mat-elevation-z8">
+
         <!-- Name Column -->
         <mat-text-column name="name"></mat-text-column>
 
@@ -19,19 +33,19 @@
         <mat-text-column name="displayName"></mat-text-column>
 
         <!-- Color Column -->
-        <mat-text-column name="status" [dataAccessor]="getStatus" ></mat-text-column>
+        <mat-text-column name="status" [dataAccessor]="getStatus"></mat-text-column>
 
         <!-- URL Column -->
         <ng-container matColumnDef="url">
           <th mat-header-cell *matHeaderCellDef> Job URL </th>
-          <td mat-cell *matCellDef="let element"> <a href="{{element.url}}">{{element.url}}</a> </td>
+          <td mat-cell *matCellDef="let element"> <a href="{{element.url}}" target="_blank">{{element.url}}</a> </td>
         </ng-container>
 
         <!-- Last Build Column -->
         <ng-container matColumnDef="lastBuild">
           <th mat-header-cell *matHeaderCellDef> Last Build </th>
-          <td mat-cell *matCellDef="let element"> 
-            <button mat-raised-button  (click)="openDialog()">{{buildMessage}} </button>
+          <td mat-cell *matCellDef="let element">
+            <button mat-raised-button (click)="openDialog(element.name)">{{buildMessage}} </button>
           </td>
         </ng-container>
 
@@ -43,6 +57,6 @@
 
   </div>
 
-  
+  <app-loader></app-loader>
 
 </div>

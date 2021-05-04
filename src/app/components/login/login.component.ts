@@ -28,12 +28,10 @@ export class LoginComponent implements OnInit {
       this.loginService.generateToken(this.credentails)
       .subscribe(
         (response:any) =>  {
-            console.log(response.token);
             this.loginService.logInUser(response.token);
             window.location.href="/dashboard";
         },
         error => {
-          console.log('Error Response is' +error);
           alert('Unable to login, Please check with Administrator');
           window.location.href="/";
         }

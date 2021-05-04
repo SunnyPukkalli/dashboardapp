@@ -1,5 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { JobInfo } from '../model/JobInfo';
+import { BuildInfo } from '../model/BuildInfo';
+import { Job } from '../model/Job';
 
 @Injectable({
   providedIn: 'root'
@@ -8,15 +11,22 @@ export class JobService {
 
   constructor(private httpClient : HttpClient) { }
 
-  serverURL = 'http://localhost:8081';
+  access_server_url = 'http://localhost:8081/rest/job';
 
-  getJobsByCategory(category:string) {
-    return this.httpClient.get(`${this.serverURL}/rest/getJobsByCategory?category=${category}`);
+  
+
+  fetchAllJobs(){
+    return this.httpClient.get<Job[]>(`${this.access_server_url}`);
   }
 
-  getJobDetails(token:string ,type:string, url:string){
-
-    return this.httpClient.get(`${this.serverURL}/rest/getStatus?loginToken=${token}&type=${type}&url=${url}`);
-
+  getJobStatus(token:string , url : string){
+      return this.httpClient.get<JobInfo>(`${this.access_server_url}/status?token=${token}&url=${url}&type=JOB`);
   }
+
+  getJBuildStatus(token:string , url : string){
+      return this.httpClient.get<BuildInfo>(`${this.access_server_url}/status?token=${token}&url=${url}&type=BUILD`);
+    
+  }
+
+
 }
