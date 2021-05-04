@@ -1,0 +1,36 @@
+<div class="bootstrap-wrapper">
+
+    <div class="example-container mat-elevation-z8">
+
+
+        <div class="example-table-container">
+
+            <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+
+                <mat-text-column name="id"></mat-text-column>
+                <mat-text-column name="displayName"></mat-text-column>
+                <mat-text-column name="number"></mat-text-column>
+
+                <ng-container matColumnDef="url">
+                    <th mat-header-cell *matHeaderCellDef> Build URL </th>
+                    <td mat-cell *matCellDef="let element"> <a href="{{element.url}}">{{element.url}}</a> </td>
+                </ng-container>
+
+                <mat-text-column name="result"></mat-text-column>
+                <mat-text-column name="timestamp"></mat-text-column>
+                <mat-text-column name="duration"></mat-text-column>
+
+                <ng-container matColumnDef="actions">
+                    <th mat-header-cell *matHeaderCellDef> Actions </th>
+                    <td mat-cell *matCellDef="let element"> {{element.actions}} </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+
+        </div>
+
+    </div>
+
+</div>

@@ -18,9 +18,9 @@ export class NavBarComponent implements OnInit {
     if(this.loggedIn){
       
       this.loginService.getUsername(localStorage.getItem("userToken")).subscribe(
-        (response) => {
+        (response:any) => {
           console.log(response);
-          this.username = response;
+          this.username = response.fullName;
         },
         error => {
           console.log(error);

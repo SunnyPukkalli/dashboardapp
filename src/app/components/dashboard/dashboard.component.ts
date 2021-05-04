@@ -1,63 +1,60 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
-import { JobService } from '../../services/job.service';
-import { Job } from '../../model/job';
-import { JobApi} from '../../model/jobapi'
-import {catchError, map, startWith, switchMap} from 'rxjs/operators';
-import {merge, Observable, of as observableOf} from 'rxjs';
+import {MatTableDataSource} from '@angular/material/table';
+import {MatDialog} from '@angular/material/dialog';
+import { BuildInfoComponent } from '../build-info/build-info.component';
 
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css']
 })
-export class DashboardComponent implements AfterViewInit {
-  
-  // DUMMY DATA FOR TEST PURPOSE 
-  ELEMENT_DATA : Job[] = [
-    { url:'http://localhost:8080/jenkins/job/JOB1',name:'JOB1',color:'BLUE',downstream:false,upstream:false,jobHealthBuildStability:'GOOD',jobHealthTestResult:'GOOD'},
-    { url:'http://localhost:8080/jenkins/job/JOB2',name:'JOB2',color:'GREEN',downstream:false,upstream:false,jobHealthBuildStability:'GOOD',jobHealthTestResult:'GOOD'}
+export class DashboardComponent implements OnInit  {
+
+  // DUMMY DATA REPLACE WITH Service call here later
+  data = [
+    {
+      "name": "JOB2",
+      "displayName": "JOB2",
+      "url": "http://localhost:8080/jenkins/job/JOB2/",
+      "buildable": true,
+      "color": "blue",
+      "lastBuild": {
+          "number": 7,
+          "url": "http://localhost:8080/jenkins/job/JOB2/7/",
+          "duration": 0,
+          "building": false,
+          "timestamp": 0
+      }
+  }
   ];
-  dummy = this.ELEMENT_DATA;
 
-  // ACUTAL CODE 
+  // ACTUAL CODE
+  buildMessage = 'Fetch lastest Build Details';
 
-  displayedColumns: string[] = [ 'name', 'color', 'downstream','upstream','jobHealthBuildStability','jobHealthTestResult','url'];
+  displayedColumns: string[] = ['name', 'displayName', 'status', 'url' , 'lastBuild'];
 
-  dataSource : Observable<Job[]>;
-  resultsLength = 0;
-  isLoadingResults = false;
-  isRateLimitReached = false;
+  constructor(public dialog: MatDialog) {}
 
-  constructor(private jobService : JobService ) { }
+  
+  dataSource = new MatTableDataSource(this.data);
 
 
-  ngAfterViewInit(){
 
-    this.dataSource = merge()
-      .pipe(
-        startWith({}),
-        switchMap( () => {
-          this.isLoadingResults = true;
-          return this.jobService.getJobsByCategory('1');
-        }),
-        map(data =>{
-          // Flip flag to show that loading has finished.
-          this.isLoadingResults = false;
-          this.isRateLimitReached = false;
-          this.resultsLength = data.total_count;
+  getStatus = (data : any ) : string => {
+    return data.color == 'blue' ? 'SUCCESS' : 'FAILURE' ; 
+  }
 
-          return data.items;
-        }),
-        catchError( () => {
-          this.isLoadingResults = false;
-           
-          // Catch if the backend API has reached its rate limit. Return empty data.
-          this.isRateLimitReached = true;
-          return observableOf([]);
-        })
-      );
+  openDialog(){
+    const dialogRef = this.dialog.open(BuildInfoComponent);
+
 
   }
-  
+
+
+
+  ngOnInit() {
+  }
+
 }
+
 

@@ -6,10 +6,6 @@ import { HttpClient } from '@angular/common/http';
 })
 export class LoginService {
 
-  url = 'http://localhost:8081';
-
-  constructor(private httpClient : HttpClient) { }
-
   // login the user using token
   logInUser( token: string ){
     localStorage.setItem("userToken",token);
@@ -32,13 +28,19 @@ export class LoginService {
     }
   }
 
+  constructor(private httpClient : HttpClient) { }
+
+  access_server_url = 'http://localhost:8081';
+  jenkins_user_url = 'http://localhost:8080/jenkins/user/';
+
   // get token from backend
   generateToken(credentails:any){
-    return this.httpClient.post(`${this.url}/rest/login`,credentails);
+    return this.httpClient.post(`${this.access_server_url}/rest/login`,credentails);
   }
+
 
   //getLoggedIn Username
   getUsername(token : string){
-    return this.httpClient.get(`${this.url}/rest/getUsername?userToken=${token}`,{responseType:'text'} ) ;
+    return this.httpClient.get(`${this.access_server_url}/rest/getUsername?token=${token}&url=${this.jenkins_user_url}`) ;
   }
 }
