@@ -14,9 +14,14 @@ import { MatIconModule } from '@angular/material';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
 import {FormsModule} from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import {MatTabsModule} from '@angular/material/tabs';
 import {MatTableModule} from '@angular/material/table';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+
+import { LoaderService } from './services/loader.service';
+import { LoaderInterceptor } from './interceptors/loader.interceptor';
+import { LoaderComponent } from './components/loader/loader.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +29,8 @@ import {MatTableModule} from '@angular/material/table';
     NavBarComponent,
     HomeComponent,
     LoginComponent,
-    DashboardComponent
+    DashboardComponent,
+    LoaderComponent
   ],
   imports: [
     BrowserModule,
@@ -37,10 +43,12 @@ import {MatTableModule} from '@angular/material/table';
     MatInputModule,
     MatTabsModule,
     MatTableModule,
+    MatProgressSpinnerModule,
     FormsModule,
     HttpClientModule
   ],
-  providers: [],
+  providers: [ LoaderService ,
+    { provide: HTTP_INTERCEPTORS, useClass: LoaderInterceptor, multi: true }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
